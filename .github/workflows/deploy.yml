@@ -3,8 +3,7 @@ name: Build and Deploy to gh-pages
 on:
   push:
     branches:
-      - main  
-
+      - main 
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,22 +27,17 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        
         mkdir -p autonity/js autonity/css
+        mv dist/js/* autonity/js/
+        mv dist/css/* autonity/css/
 
-        mv build/js/* autonity/js/
-        mv build/css/* autonity/css/
+        mv dist/index.html .
+        mv dist/favicon.ico .
 
-    
-        mv build/index.html .
-        mv build/favicon.ico .
-
-      
         git init
         git remote add origin https://github.com/${{ github.repository }}
         git checkout -b gh-pages
 
-        
         git add .
         git commit -m "Deploy to gh-pages"
         git push --force origin gh-pages
