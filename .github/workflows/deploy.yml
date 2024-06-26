@@ -42,22 +42,23 @@ jobs:
         git init
         git config --local user.email "test@test.com"
         git config --local user.name "test"
+        git remote remove origin || echo "No remote origin to remove"
         git remote add origin https://github.com/${{ github.repository }}
         git fetch origin
         git checkout -b gh-pages origin/gh-pages || git checkout --orphan gh-pages
         
         # Memindahkan file dari direktori deploy ke lokasi sementara
-        mv ../deploy deploy_tmp
-
+        mv deploy deploy_tmp
+        
         # Menghapus semua file di branch gh-pages
         git rm -rf .
         git clean -fdx
-
+        
         # Memindahkan file dari lokasi sementara ke working directory
         mv deploy_tmp/autonity autonity
         mv deploy_tmp/index.html index.html || echo "No index.html to move"
         mv deploy_tmp/favicon.ico favicon.ico || echo "No favicon.ico to move"
-
+        
         # Menambahkan file ke git
         git add autonity/js autonity/css index.html favicon.ico
         git commit -m "Deploy to gh-pages"
