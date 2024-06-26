@@ -36,6 +36,7 @@ jobs:
         git init
         git config --local user.email "test@test.com"
         git config --local user.name "test"
+        git remote remove origin || echo "No remote origin to remove"
         git remote add origin https://github.com/${{ github.repository }}
         git fetch origin
         git checkout -b gh-pages origin/gh-pages || git checkout --orphan gh-pages
