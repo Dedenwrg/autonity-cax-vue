@@ -1,0 +1,49 @@
+name: Build and Deploy to gh-pages
+
+on:
+  push:
+    branches:
+      - main  
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16.20.2'  
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build project
+      run: npm run build
+
+    - name: Deploy to gh-pages
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        
+        mkdir -p autonity/js autonity/css
+
+        mv build/js/* autonity/js/
+        mv build/css/* autonity/css/
+
+    
+        mv build/index.html .
+        mv build/favicon.ico .
+
+      
+        git init
+        git remote add origin https://github.com/${{ github.repository }}
+        git checkout -b gh-pages
+
+        
+        git add .
+        git commit -m "Deploy to gh-pages"
+        git push --force origin gh-pages
