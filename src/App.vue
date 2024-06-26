@@ -36,8 +36,8 @@
                   style="width: 240px"
                   @change="selectPair()"
                 >
-                  <el-option label="ATN-USD" value="ATN-USD" />
-                  <el-option label="NTN-USD" value="NTN-USD" />
+                  <el-option label="ATN-USDC" value="ATN-USDC" />
+                  <el-option label="NTN-USDC" value="NTN-USDC" />
                 </el-select>
                 </div>
                 
@@ -66,9 +66,9 @@
                 <el-col :span="12">
                   <el-card style="max-width: 480px">
                       <el-form  :model="buyForm" label-width="auto" style="max-width: 600px">
-                      <el-text style="text-align:right;margin-left: 280px;" >balance:{{balanceData.USD.available}} USD</el-text>
+                      <el-text style="text-align:right;margin-left: 280px;" >balance:{{balanceData.USDC.available}} USDC</el-text>
                       <el-form-item label="Price">
-                        <el-input v-model="buyForm.price" ><template #append>USD</template></el-input>
+                        <el-input v-model="buyForm.price" ><template #append>USDC</template></el-input>
                       </el-form-item>
                       <el-form-item label="Amount">
                         <el-input v-model="buyForm.amount"><template #append>{{this.symbol}}</template></el-input>
@@ -84,7 +84,7 @@
                       <el-form  :model="sellForm" label-width="auto" style="max-width: 600px">
                       <el-text style="text-align:right;margin-left: 185px " >balance:{{symbolBalance.available}} {{this.symbol}}</el-text>
                       <el-form-item label="Price">
-                        <el-input v-model="sellForm.price" ><template #append>USD</template></el-input>
+                        <el-input v-model="sellForm.price" ><template #append>USDC</template></el-input>
                       </el-form-item>
                       <el-form-item label="Amount">
                         <el-input v-model="sellForm.amount"><template #append>{{this.symbol}}</template></el-input>
@@ -208,7 +208,7 @@ export default {
         api_key:"",
       },
       loginFormVisible:false,
-      pair:"NTN-USD",
+      pair:"NTN-USDC",
       quoteData: {},
       tradeData:{},
       sellForm:{
@@ -224,7 +224,7 @@ export default {
         NTN:{
           available: 0,
         },
-        USD:{
+        USDC:{
           available: 0,
         }
       },
@@ -278,9 +278,9 @@ mounted () {
   methods: {
     selectPair(){
         this.refresh();
-        if(this.pair == 'ATN-USD'){
+        if(this.pair == 'ATN-USDC'){
           this.symbol = "ATN";
-        }else if(this.pair == 'NTN-USD'){
+        }else if(this.pair == 'NTN-USDC'){
           this.symbol = "NTN";
         }
     },

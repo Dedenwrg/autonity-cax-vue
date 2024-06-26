@@ -1,0 +1,11 @@
+node_modules
+public
+src
+App.vue
+babel.config.js
+jsconfig.json
+package-lock.json
+package.json
+README.md
+status.md
+vue.config.js

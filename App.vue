@@ -29,8 +29,8 @@
                   style="width: 240px"
                   @change="selectPair()"
                 >
-                  <el-option label="ATN-USD" value="ATN-USD" />
-                  <el-option label="NTN-USD" value="NTN-USD" />
+                  <el-option label="ATN-USDC" value="ATN-USDC" />
+                  <el-option label="NTN-USDC" value="NTN-USDC" />
                 </el-select>
                 </div>
                 
@@ -59,25 +59,25 @@
                 <el-col :span="12">
                   <el-card style="max-width: 480px">
                     <el-row style="flex" justify="end">
-                      <el-text>balance:{{balanceData.USD.available}} USD</el-text>
+                      <el-text>balance:{{balanceData.USDC.available}} USDC</el-text>
                     </el-row>
                     
                       <el-form ref="form"  :model="buyForm" label-width="80" size="mini">
                       
                       <el-form-item label="Price">
-                        <el-input v-model="buyForm.price" type="number" ><template #append>USD</template></el-input>
+                        <el-input v-model="buyForm.price" type="number" ><template #append>USDC</template></el-input>
                       </el-form-item>
                       <el-form-item label="Amount">
                         <el-input v-model="buyForm.amount" type="number"><template #append>{{this.symbol}}</template></el-input>
                       </el-form-item>
                       <el-form-item label="Total">
-                        <el-input v-model="buyForm.total"><template #append>USD</template></el-input>
+                        <el-input v-model="buyForm.total"><template #append>USDC</template></el-input>
                         <div class="flex flex-wrap items-center mb-5">
-                          <el-button size="small" @click="buyForm.total = balanceData.USD.available * 0.1" round>10%</el-button>
-                          <el-button size="small" @click="buyForm.total = balanceData.USD.available * 0.3" round>30%</el-button>
-                          <el-button size="small" @click="buyForm.total = balanceData.USD.available * 0.5" round>50%</el-button>
-                          <el-button size="small" @click="buyForm.total = balanceData.USD.available * 0.8" round>80%</el-button>
-                          <el-button size="small" @click="buyForm.total = balanceData.USD.available * 1" round>100%</el-button>
+                          <el-button size="small" @click="buyForm.total = balanceData.USDC.available * 0.1" round>10%</el-button>
+                          <el-button size="small" @click="buyForm.total = balanceData.USDC.available * 0.3" round>30%</el-button>
+                          <el-button size="small" @click="buyForm.total = balanceData.USDC.available * 0.5" round>50%</el-button>
+                          <el-button size="small" @click="buyForm.total = balanceData.USDC.available * 0.8" round>80%</el-button>
+                          <el-button size="small" @click="buyForm.total = balanceData.USDC.available * 1" round>100%</el-button>
                         </div>
                       </el-form-item>
                       <el-form-item>
@@ -93,13 +93,13 @@
                     </el-row>
                       <el-form  :model="sellForm" label-width="80px" style="max-width: 600px">
                       <el-form-item label="Price">
-                        <el-input v-model="sellForm.price" type="number" ><template #append>USD</template></el-input>
+                        <el-input v-model="sellForm.price" type="number" ><template #append>USDC</template></el-input>
                       </el-form-item>
                       <el-form-item label="Amount">
                         <el-input v-model="sellForm.amount" type="number"><template #append>{{this.symbol}}</template></el-input>
                       </el-form-item>
                       <el-form-item label="Total">
-                        <el-input v-model="sellForm.total" type="number"  ><template #append>USD</template></el-input>
+                        <el-input v-model="sellForm.total" type="number"  ><template #append>USDC</template></el-input>
                         <div class="flex flex-wrap items-center mb-5">
                           <el-button size="small" @click="sellForm.total = symbolBalance.available * 0.1" round>10%</el-button>
                           <el-button size="small" @click="sellForm.total = symbolBalance.available * 0.3" round>30%</el-button>
@@ -232,7 +232,7 @@ export default {
         api_key:"",
       },
       loginFormVisible:false,
-      pair:"NTN-USD",
+      pair:"NTN-USDC",
       quoteData: {},
       tradeData:{},
       sellForm:{
@@ -248,7 +248,7 @@ export default {
         NTN:{
           available: 0,
         },
-        USD:{
+        USDC:{
           available: 0,
         }
       },
@@ -336,9 +336,9 @@ mounted () {
   methods: {
     selectPair(){
         this.refresh();
-        if(this.pair == 'ATN-USD'){
+        if(this.pair == 'ATN-USDC'){
           this.symbol = "ATN";
-        }else if(this.pair == 'NTN-USD'){
+        }else if(this.pair == 'NTN-USDC'){
           this.symbol = "NTN";
         }
     },
