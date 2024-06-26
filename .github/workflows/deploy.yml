@@ -38,7 +38,10 @@ jobs:
         git config --local user.name "test"
         git remote remove origin
         git remote add origin https://github.com/${{ github.repository }}
-        git checkout -b gh-pages
-        git add .
+        git fetch origin
+        git checkout -b gh-pages origin/gh-pages || git checkout --orphan gh-pages
+        git rm -rf .
+        git clean -fdx
+        git add autonity/js autonity/css index.html favicon.ico
         git commit -m "Deploy to gh-pages"
         git push --force origin gh-pages
