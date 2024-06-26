@@ -40,13 +40,18 @@ jobs:
         git remote add origin https://github.com/${{ github.repository }}
         git fetch origin
         git checkout -b gh-pages origin/gh-pages || git checkout --orphan gh-pages
-        rm -rf *
+        git rm -rf .
         git clean -fdx
+        mv autonity/js autonity/js_tmp
+        mv autonity/css autonity/css_tmp
+        mv index.html index.html_tmp
+        mv favicon.ico favicon.ico_tmp
+        rm -rf autonity
         mkdir -p autonity/js autonity/css
-        mv ../dist/js/* autonity/js/ || echo "No JS files to move"
-        mv ../dist/css/* autonity/css/ || echo "No CSS files to move"
-        mv ../dist/index.html . || echo "No index.html to move"
-        mv ../dist/favicon.ico . || echo "No favicon.ico to move"
+        mv autonity/js_tmp/* autonity/js/ || echo "No JS files to move"
+        mv autonity/css_tmp/* autonity/css/ || echo "No CSS files to move"
+        mv index.html_tmp index.html || echo "No index.html to move"
+        mv favicon.ico_tmp favicon.ico || echo "No favicon.ico to move"
         git add autonity/js autonity/css index.html favicon.ico
         git commit -m "Deploy to gh-pages"
         git push --force origin gh-pages
