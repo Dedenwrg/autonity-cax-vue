@@ -26,40 +26,42 @@ jobs:
         rm -rf dist  # Menghapus folder dist jika ada
         npm run build
 
+    - name: Prepare files for deployment
+      run: |
+        mkdir -p deploy/autonity/js deploy/autonity/css
+        mv dist/js/* deploy/autonity/js/ || echo "No JS files to move"
+        mv dist/css/* deploy/autonity/css/ || echo "No CSS files to move"
+        mv dist/index.html deploy/ || echo "No index.html to move"
+        mv dist/favicon.ico deploy/ || echo "No favicon.ico to move"
+
     - name: Deploy to gh-pages
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        # Buat direktori baru untuk struktur yang diinginkan
-        mkdir -p autonity/js autonity/css
-        mv dist/js/* autonity/js/ || echo "No JS files to move"
-        mv dist/css/* autonity/css/ || echo "No CSS files to move"
-        mv dist/index.html . || echo "No index.html to move"
-        mv dist/favicon.ico . || echo "No favicon.ico to move"
-        
         # Inisialisasi repository git baru dan checkout ke branch gh-pages
         git init
         git config --local user.email "test@test.com"
         git config --local user.name "test"
-        git remote remove origin || echo "No remote origin to remove"
         git remote add origin https://github.com/${{ github.repository }}
         git fetch origin
         git checkout -b gh-pages origin/gh-pages || git checkout --orphan gh-pages
         
+        # Memindahkan file dari direktori deploy ke lokasi sementara
+        mv ../deploy deploy_tmp
+
         # Menghapus semua file di branch gh-pages
         git rm -rf .
         git clean -fdx
-        
-        # Memindahkan file ke branch gh-pages
-        mv ../autonity/js autonity/js || echo "No JS files to move"
-        mv ../autonity/css autonity/css || echo "No CSS files to move"
-        mv ../index.html index.html || echo "No index.html to move"
-        mv ../favicon.ico favicon.ico || echo "No favicon.ico to move"
-        
+
+        # Memindahkan file dari lokasi sementara ke working directory
+        mv deploy_tmp/autonity autonity
+        mv deploy_tmp/index.html index.html || echo "No index.html to move"
+        mv deploy_tmp/favicon.ico favicon.ico || echo "No favicon.ico to move"
+
         # Menambahkan file ke git
         git add autonity/js autonity/css index.html favicon.ico
         git commit -m "Deploy to gh-pages"
         git push --force origin gh-pages
         
         # Bersihkan direktori kerja
-        rm -rf autonity js css index.html favicon.ico
+        rm -rf deploy_tmp autonity js css index.html favicon.ico
