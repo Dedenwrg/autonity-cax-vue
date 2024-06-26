@@ -36,17 +36,16 @@ jobs:
         git init
         git config --local user.email "test@test.com"
         git config --local user.name "test"
-        git remote remove origin || echo "No remote origin to remove"
         git remote add origin https://github.com/${{ github.repository }}
         git fetch origin
         git checkout -b gh-pages origin/gh-pages || git checkout --orphan gh-pages
-        git rm -rf .
+        rm -rf *
         git clean -fdx
         mkdir -p autonity/js autonity/css
-        mv dist/js/* autonity/js/ || echo "No JS files to move"
-        mv dist/css/* autonity/css/ || echo "No CSS files to move"
-        mv dist/index.html . || echo "No index.html to move"
-        mv dist/favicon.ico . || echo "No favicon.ico to move"
+        mv ../dist/js/* autonity/js/ || echo "No JS files to move"
+        mv ../dist/css/* autonity/css/ || echo "No CSS files to move"
+        mv ../dist/index.html . || echo "No index.html to move"
+        mv ../dist/favicon.ico . || echo "No favicon.ico to move"
         git add autonity/js autonity/css index.html favicon.ico
         git commit -m "Deploy to gh-pages"
         git push --force origin gh-pages
