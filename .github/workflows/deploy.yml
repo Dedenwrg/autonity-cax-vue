@@ -3,7 +3,8 @@ name: Build and Deploy to gh-pages
 on:
   push:
     branches:
-      - main 
+      - main  
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,14 +28,15 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
+        # Buat direktori baru untuk struktur yang diinginkan
         mkdir -p autonity/js autonity/css
         mv dist/js/* autonity/js/
         mv dist/css/* autonity/css/
-
         mv dist/index.html .
         mv dist/favicon.ico .
 
         git init
+        git remote remove origin
         git remote add origin https://github.com/${{ github.repository }}
         git checkout -b gh-pages
 
