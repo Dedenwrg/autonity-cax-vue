@@ -22,7 +22,9 @@ jobs:
       run: npm install
 
     - name: Build project
-      run: npm run build
+      run: |
+        rm -rf dist  # Menghapus folder dist jika ada
+        npm run build
 
     - name: Deploy to gh-pages
       env:
@@ -42,16 +44,11 @@ jobs:
         git checkout -b gh-pages origin/gh-pages || git checkout --orphan gh-pages
         git rm -rf .
         git clean -fdx
-        mv autonity/js autonity/js_tmp
-        mv autonity/css autonity/css_tmp
-        mv index.html index.html_tmp
-        mv favicon.ico favicon.ico_tmp
-        rm -rf autonity
-        mkdir -p autonity/js autonity/css
-        mv autonity/js_tmp/* autonity/js/ || echo "No JS files to move"
-        mv autonity/css_tmp/* autonity/css/ || echo "No CSS files to move"
-        mv index.html_tmp index.html || echo "No index.html to move"
-        mv favicon.ico_tmp favicon.ico || echo "No favicon.ico to move"
+        mv ../autonity/js autonity/js || echo "No JS files to move"
+        mv ../autonity/css autonity/css || echo "No CSS files to move"
+        mv ../index.html index.html || echo "No index.html to move"
+        mv ../favicon.ico favicon.ico || echo "No favicon.ico to move"
         git add autonity/js autonity/css index.html favicon.ico
         git commit -m "Deploy to gh-pages"
         git push --force origin gh-pages
+        rm -rf autonity js css index.html favicon.ico  # Bersihkan direktori kerja
